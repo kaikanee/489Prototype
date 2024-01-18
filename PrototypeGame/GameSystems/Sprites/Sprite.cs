@@ -14,28 +14,42 @@ namespace PrototypeGame.GameSystems.Sprites
     {
         private string textureName;
         private Texture2D texture;
-        private Vector2 velocity, origin;
-        private float speed, rotation;
+        protected Vector2 velocity, origin;
+        protected float speed, rotation;
         public Vector2 position;
         public bool isRemoved;
         public float scale;
 
 
+        /// <summary>
+        /// Generates a new instance of the sprite class with default values.
+        /// </summary>
+        /// <param name="textureName">Texture name</param>
+        /// <param name="initialPosition">Initial position of the sprite</param>
         public Sprite(string textureName, Vector2 initialPosition)
         {
             this.textureName = textureName;
             this.position = initialPosition;
             isRemoved = false;
+            speed = 0f;
+            rotation = 0f;
+            scale = 1f;
         }
 
-        public Sprite(string textureName, Vector2 initialPosition, float speed, float rotation, float scale)
+        /// <summary>
+        /// Generates a new instance of the Sprite class.
+        /// </summary>
+        /// <param name="textureName">Texture name</param>
+        /// <param name="initialPosition">Initial position of the sprite</param>
+        /// <param name="speed">Linear speed</param>
+        /// <param name="rotation">Rotation in (radians or degrees?)</param>
+        /// <param name="scale">Scale of the sprite.</param>
+        public Sprite(string textureName, Vector2 initialPosition, float speed, float rotation, float scale) : this(textureName, initialPosition)
         {
-            this.textureName = textureName;
-            this.position = initialPosition;
             this.speed = speed;
             this.rotation = rotation;
-            this.scale = 1f;
-            isRemoved = false;
+            this.scale = scale;
+            
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch sb)
@@ -43,9 +57,10 @@ namespace PrototypeGame.GameSystems.Sprites
             sb.Draw(texture, position, null, Color.White, rotation, origin, scale, SpriteEffects.None, 0f);
         }
 
+        // basic sprite shouldnt do anything
         public override void Update(GameTime gt)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public virtual void LoadContent(ContentManager content)
