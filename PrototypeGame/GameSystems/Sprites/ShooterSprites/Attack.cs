@@ -32,8 +32,15 @@ namespace PrototypeGame.GameSystems.Sprites.ShooterSprites
             bullet.position = parent.position;
             bullet.TargetPosition = targetPosition;
             parent.children.Add(bullet);
+        }
 
-
+        public void Execute(ref Player player)
+        {
+            attackSound.Play();
+            Bullet bullet = attackBullet.Clone() as Bullet;
+            bullet.position = parent.position;
+            bullet.targetSprite = player;
+            parent.children.Add(bullet);
         }
 
         public void LoadContent(ContentManager content)

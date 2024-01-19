@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 using PrototypeGame.GameSystems.Sprites.ShooterSprites.Enemy.Enemy;
 using System;
@@ -11,6 +12,7 @@ namespace PrototypeGame.GameSystems.Sprites.ShooterSprites.enemies
 {
     internal class Enemy : ShootingSprite
     {
+        private Player player;
         private Vector2 target;
         private Waypoint currentWaypoint;
         private float waypointTimer;
@@ -29,23 +31,32 @@ namespace PrototypeGame.GameSystems.Sprites.ShooterSprites.enemies
 
             }
         }
-        public Enemy(string textureName, string projectileTexture, Vector2 initialPosition, Vector2 hitboxDimensions, Vector2 screenDimensions, float health, float attackTimer) : base(textureName, projectileTexture, initialPosition, hitboxDimensions, screenDimensions, health, attackTimer, null)
+        public Enemy(string textureName, string projectileTexture, Vector2 initialPosition, Vector2 hitboxDimensions, Vector2 screenDimensions, float health, float attackTimer, ref Player player) : base(textureName, projectileTexture, initialPosition, hitboxDimensions, screenDimensions, health, attackTimer, null)
         {
             waypoints = new Queue<Waypoint>();
+            this.player = player;
             //speed = 40f;
         }
 
+        public override void LoadContent(ContentManager content)
+        {
+            base.LoadContent(content);
+            Bullet playerBullet = new Bullet(defaultProjectileTexture, Vector2.Zero, new Vector2(40, 40), screenDimensions, Vector2.Zero, 500f, 500f, 0f, 10f);
+            playerBullet.LoadContent(content);
+            this.defaultAttack = new Attack(playerBullet, this, "playeratk");
+            this.defaultAttack.LoadContent(content);
+        }
 
-       
         public override void Update(GameTime gt)
         {
             base.Update(gt);
             // attack
 
+            attackCooldown -= (float)gt.ElapsedGameTime.TotalSeconds;
             if (attackCooldown <= 0f)
             {
                 attackCooldown = attackTimer;
-                
+                this.defaultAttack.Execute(player.position);
 
             }
 

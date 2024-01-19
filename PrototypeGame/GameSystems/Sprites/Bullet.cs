@@ -7,7 +7,7 @@ namespace PrototypeGame.GameSystems.Sprites
     {
         float lifespan;
         private Vector2 target;
-        Sprite targetSprite;
+        internal Sprite targetSprite;
 
         internal Vector2 TargetPosition
         {

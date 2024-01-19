@@ -23,6 +23,7 @@ namespace PrototypeGame.GameSystems.Sprites.ShooterSprites
             this.health = health;
             this.defaultAttack = defaultAttack;
             this.attackTimer = attackTimer;
+            this.defaultProjectileTexture = projectileTexture;
             
 
             

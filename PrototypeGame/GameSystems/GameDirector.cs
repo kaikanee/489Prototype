@@ -29,7 +29,8 @@ namespace PrototypeGame.GameSystems
             Waypoint wp1 = new Waypoint(screenMiddle, 0f, 100f, 300f, 10f);
             Queue<Waypoint> waypoints = new Queue<Waypoint>();
             waypoints.Enqueue(wp1);
-            Enemy enemy = new("enemytexture", "playerprojectile", Vector2.Zero, new Vector2(40, 40), screenSize, 1f, 1f);
+            Enemy enemy = new("enemytexture", "playerprojectile", Vector2.Zero, new Vector2(40, 40), screenSize, 1f, 1f, ref player);
+            
             enemy.waypoints = waypoints;
             _sprites.Add(enemy);
 
