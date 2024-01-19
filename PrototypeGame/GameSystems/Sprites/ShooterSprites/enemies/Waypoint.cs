@@ -5,15 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PrototypeGame.GameSystems.Sprites.ShooterSprites.Enemy
+namespace PrototypeGame.GameSystems.Sprites.ShooterSprites.Enemy.Enemy
 {
-    internal struct Waypoint
+    internal class Waypoint
     {
 
-        public Waypoint(Vector2 target, float initialSpeed, float acceleration, float waitTime)
+        public Waypoint(Vector2 target, float initialSpeed, float maxSpeed, float acceleration, float waitTime)
         {
             this.Target = target;
             this.InitialSpeed = initialSpeed;
+            this.MaxSpeed = maxSpeed;
             this.Acceleration = acceleration;
             this.WaitTimer = waitTime;
         }
@@ -22,6 +23,8 @@ namespace PrototypeGame.GameSystems.Sprites.ShooterSprites.Enemy
         /// <summary>
         /// If initial speed -1, use previous speed.
         /// </summary>
+        /// 
+        public float MaxSpeed { get; }
         public float InitialSpeed { get; }
         public float Acceleration { get; }
 

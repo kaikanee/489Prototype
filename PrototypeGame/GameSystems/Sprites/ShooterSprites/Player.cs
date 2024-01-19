@@ -12,7 +12,6 @@ namespace PrototypeGame.GameSystems.Sprites.ShooterSprites
     internal class Player : ShootingSprite
     {
 
-        float maxSpeed;
         public Player(string textureName, string projectileTexture, Vector2 initialPosition, Vector2 hitboxDimensions, Vector2 screenDimensions, float health, float maxSpeed) : base(textureName, projectileTexture, initialPosition, hitboxDimensions, screenDimensions, health, .2f, null )
         {
             this.maxSpeed = maxSpeed;
@@ -94,7 +93,7 @@ namespace PrototypeGame.GameSystems.Sprites.ShooterSprites
 
             // test code for now, need to do this differently later (figure out when to instantiate attack...)
 
-            Bullet playerBullet = new Bullet(defaultProjectileTexture, Vector2.Zero, new Vector2(40, 40), screenDimensions, Vector2.Zero, 50f, 50f, 0f, 10f);
+            Bullet playerBullet = new Bullet(defaultProjectileTexture, Vector2.Zero, new Vector2(40, 40), screenDimensions, Vector2.Zero, 500f, 500f, 0f, 10f);
             playerBullet.LoadContent(content);
             this.defaultAttack = new Attack(playerBullet, this, "playeratk");
             this.defaultAttack.LoadContent(content);

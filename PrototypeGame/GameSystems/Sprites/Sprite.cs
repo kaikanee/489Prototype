@@ -15,7 +15,7 @@ namespace PrototypeGame.GameSystems.Sprites
         private string textureName;
         private Texture2D texture;
         protected Vector2 velocity, origin;
-        protected float speed, rotation;
+        protected float speed, rotation, acceleration, maxSpeed;
         
         public Vector2 position;
         public float scale;

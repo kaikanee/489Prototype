@@ -5,7 +5,7 @@ namespace PrototypeGame.GameSystems.Sprites
 {
     internal class Bullet : CollidableSprite
     {
-        float maxSpeed, acceleration, lifespan;
+        float lifespan;
         private Vector2 target;
         Sprite targetSprite;
 
@@ -18,7 +18,7 @@ namespace PrototypeGame.GameSystems.Sprites
             set
             {
                 this.target = value;
-                velocity = Vector2.Normalize(target - position) * speed;
+                velocity = Vector2.Normalize(target - position);
 
             }
         }
