@@ -36,7 +36,7 @@ namespace PrototypeGame.GameSystems.Sprites.ShooterSprites
                 if (attackCooldown <= 0f)
                 {
                     attackCooldown = attackTimer;
-                    this.defaultAttack.Execute(new Vector2(position.X, position.Y - 1));
+                    this.defaultAttack.Execute(new Vector2(position.X, position.Y - 100));
 
                 }
 

@@ -16,7 +16,7 @@ namespace PrototypeGame.GameSystems.Sprites
         private Texture2D texture;
         protected Vector2 velocity, origin;
         protected float speed, rotation, acceleration, maxSpeed;
-        
+        protected SpriteEffects spriteEffect;
         public Vector2 position;
         public float scale;
         public List<Sprite> children;
@@ -31,6 +31,7 @@ namespace PrototypeGame.GameSystems.Sprites
         {
             this.children = new List<Sprite>();
             this.textureName = textureName;
+            this.spriteEffect = SpriteEffects.None;
             this.position = initialPosition;
             isRemoved = false;
             speed = 0f;
@@ -56,7 +57,7 @@ namespace PrototypeGame.GameSystems.Sprites
 
         public override void Draw(GameTime gameTime, SpriteBatch sb)
         {
-            sb.Draw(texture, position, null, Color.White, rotation, origin, scale, SpriteEffects.None, 0f);
+            sb.Draw(texture, position, null, Color.White, rotation, origin, scale, spriteEffect, 0f);
             foreach (Sprite child in this.children.ToArray())
             {
                 if (child.isRemoved) { this.children.Remove(child); }

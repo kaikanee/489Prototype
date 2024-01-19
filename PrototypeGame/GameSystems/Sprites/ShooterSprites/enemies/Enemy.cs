@@ -41,7 +41,7 @@ namespace PrototypeGame.GameSystems.Sprites.ShooterSprites.enemies
         public override void LoadContent(ContentManager content)
         {
             base.LoadContent(content);
-            Bullet playerBullet = new Bullet(defaultProjectileTexture, Vector2.Zero, new Vector2(40, 40), screenDimensions, Vector2.Zero, 500f, 500f, 0f, 10f);
+            Bullet playerBullet = new Bullet(defaultProjectileTexture, Vector2.Zero, new Vector2(40, 40), screenDimensions, Vector2.Zero, 20f, 500f, 25f, 10f);
             playerBullet.LoadContent(content);
             this.defaultAttack = new Attack(playerBullet, this, "playeratk");
             this.defaultAttack.LoadContent(content);
@@ -56,7 +56,7 @@ namespace PrototypeGame.GameSystems.Sprites.ShooterSprites.enemies
             if (attackCooldown <= 0f)
             {
                 attackCooldown = attackTimer;
-                this.defaultAttack.Execute(player.position);
+                this.defaultAttack.Execute(ref player);
 
             }
 
