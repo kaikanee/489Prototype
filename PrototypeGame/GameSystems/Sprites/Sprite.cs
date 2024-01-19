@@ -16,9 +16,11 @@ namespace PrototypeGame.GameSystems.Sprites
         private Texture2D texture;
         protected Vector2 velocity, origin;
         protected float speed, rotation;
+        
         public Vector2 position;
         public bool isRemoved;
         public float scale;
+        public List<GameComponent> children;
 
 
         /// <summary>
@@ -28,6 +30,7 @@ namespace PrototypeGame.GameSystems.Sprites
         /// <param name="initialPosition">Initial position of the sprite</param>
         public Sprite(string textureName, Vector2 initialPosition)
         {
+            this.children = new List<GameComponent>();
             this.textureName = textureName;
             this.position = initialPosition;
             isRemoved = false;
@@ -60,6 +63,7 @@ namespace PrototypeGame.GameSystems.Sprites
         // basic sprite shouldnt do anything
         public override void Update(GameTime gt)
         {
+            return;
             //throw new NotImplementedException();
         }
 

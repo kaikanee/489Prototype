@@ -14,7 +14,7 @@ namespace PrototypeGame.GameSystems.Sprites
     {
         private Texture2D hitboxTexture;
         private Vector2 hitboxDimensions;
-        private Vector2 screenDimensions;
+        protected Vector2 screenDimensions;
 
         public bool ShowHitbox
         {
