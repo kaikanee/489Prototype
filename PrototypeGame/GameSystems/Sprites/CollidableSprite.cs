@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -42,6 +43,21 @@ namespace PrototypeGame.GameSystems.Sprites
             }
         }
 
+        public override void LoadContent(ContentManager content)
+        {
+            base.LoadContent(content);
+        }
+
+
+        public override void Draw(GameTime gameTime, SpriteBatch sb)
+        {
+            base.Draw(gameTime, sb);
+            if(ShowHitbox)
+            {
+                // draw the rectangle here,
+            }
+        }
+        /*
         private void SetHitbox(GraphicsDevice graphics)
         {
             var colors = new List<Color>();
@@ -65,6 +81,21 @@ namespace PrototypeGame.GameSystems.Sprites
             hitboxTexture.SetData<Color>(colors.ToArray());
         }
 
+        */
+        protected bool IsOutOfBounds()
+        {
+            if (this.position.X < 0 || this.position.Y < 0)
+            {
+                return true;
+            }
+            if (this.position.X > screenDimensions.X || this.position.Y > screenDimensions.Y)
+            {
+                return true;
+            }
+           
+            return false;
+        }
+        
 
     }
 }
