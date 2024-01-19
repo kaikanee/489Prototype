@@ -10,6 +10,7 @@ namespace PrototypeGame.GameSystems.Sprites
 {
     internal abstract class GameComponent
     {
+        public bool isRemoved;
         public abstract void Draw(GameTime gameTime, SpriteBatch sb);
 
         public abstract void Update(GameTime gt);

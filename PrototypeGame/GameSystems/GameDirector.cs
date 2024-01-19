@@ -21,7 +21,8 @@ namespace PrototypeGame.GameSystems
         {
             _sprites = new List<Sprite>();
             Vector2 screenMiddle = new Vector2(screenSize.X / 2, screenSize.Y / 2);
-            Player player = new("playertexture", "projectile texture", new Vector2(screenMiddle.X, screenMiddle.Y + 200), new Vector2(40, 40), screenSize, 1, 400f);
+
+            Player player = new("playertexture", "playerprojectile", new Vector2(screenMiddle.X, screenMiddle.Y + 200), new Vector2(40, 40), screenSize, 1, 400f);
             _sprites.Add(player);
 
         }

@@ -13,6 +13,12 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin playeratk.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:playeratk.wav
+
 #begin playerprojectile.png
 /importer:TextureImporter
 /processor:TextureProcessor

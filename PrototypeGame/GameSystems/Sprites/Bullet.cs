@@ -1,22 +1,24 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 
 namespace PrototypeGame.GameSystems.Sprites
 {
     internal class Bullet : CollidableSprite
     {
         float maxSpeed, acceleration, lifespan;
+        private Vector2 target;
         Sprite targetSprite;
 
         internal Vector2 TargetPosition
         {
             get
             {
-                return TargetPosition;
+                return target;
             }
             set
             {
-                this.TargetPosition = value;
-                velocity = Vector2.Normalize(value - position) * speed;
+                this.target = value;
+                velocity = Vector2.Normalize(target - position) * speed;
 
             }
         }
@@ -64,8 +66,13 @@ namespace PrototypeGame.GameSystems.Sprites
                 if(speed < maxSpeed)
                 {
                     speed += acceleration * (float)gt.ElapsedGameTime.TotalSeconds;
+
+                    
                 }
-                position += Vector2.Lerp(position, position + velocity, speed * (float)gt.ElapsedGameTime.TotalSeconds);
+
+               
+                position = Vector2.Lerp(position, position + velocity, speed * (float)gt.ElapsedGameTime.TotalSeconds);
+                return;
             }
         }
     }

@@ -13,10 +13,11 @@ namespace PrototypeGame.GameSystems.Sprites.ShooterSprites
     {
 
         float maxSpeed;
-        public Player(string textureName, string projectileTexture, Vector2 initialPosition, Vector2 hitboxDimensions, Vector2 screenDimensions, float health, float maxSpeed) : base(textureName, projectileTexture, initialPosition, hitboxDimensions, screenDimensions, health, null)
+        public Player(string textureName, string projectileTexture, Vector2 initialPosition, Vector2 hitboxDimensions, Vector2 screenDimensions, float health, float maxSpeed) : base(textureName, projectileTexture, initialPosition, hitboxDimensions, screenDimensions, health, .2f, null )
         {
             this.maxSpeed = maxSpeed;
             this.defaultProjectileTexture = projectileTexture;
+            this.attackCooldown = 0;
             //this.scale = 500f;
 
 
@@ -26,9 +27,22 @@ namespace PrototypeGame.GameSystems.Sprites.ShooterSprites
 
         public override void Update(GameTime gt)
         {
+            attackCooldown -= (float)gt.ElapsedGameTime.TotalSeconds;
             velocity = Vector2.Zero;
             base.Update(gt);
             KeyboardState input = Keyboard.GetState();
+
+            if (input.IsKeyDown(Keys.F))
+            {
+                if (attackCooldown <= 0f)
+                {
+                    attackCooldown = attackTimer;
+                    this.defaultAttack.Execute(new Vector2(position.X, position.Y - 1));
+
+                }
+
+            }
+
             if (input.IsKeyDown(Keys.Space))
             {
                 speed = maxSpeed / 2;
@@ -69,7 +83,7 @@ namespace PrototypeGame.GameSystems.Sprites.ShooterSprites
             if (IsOutOfBounds())
             {
                 position = prePosition;
-            }
+           }
 
             
         }
@@ -80,9 +94,10 @@ namespace PrototypeGame.GameSystems.Sprites.ShooterSprites
 
             // test code for now, need to do this differently later (figure out when to instantiate attack...)
 
-            Bullet playerBullet = new Bullet(defaultProjectileTexture, Vector2.Zero, new Vector2(40, 40), screenDimensions, Vector2.Zero, 0f, 50f, 12f, 10f);
+            Bullet playerBullet = new Bullet(defaultProjectileTexture, Vector2.Zero, new Vector2(40, 40), screenDimensions, Vector2.Zero, 50f, 50f, 0f, 10f);
             playerBullet.LoadContent(content);
-            Attack attack = new Attack(playerBullet, this);
+            this.defaultAttack = new Attack(playerBullet, this, "playeratk");
+            this.defaultAttack.LoadContent(content);
         }
     }
 }

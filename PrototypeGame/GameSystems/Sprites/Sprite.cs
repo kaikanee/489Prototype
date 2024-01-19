@@ -18,9 +18,8 @@ namespace PrototypeGame.GameSystems.Sprites
         protected float speed, rotation;
         
         public Vector2 position;
-        public bool isRemoved;
         public float scale;
-        public List<GameComponent> children;
+        public List<Sprite> children;
 
 
         /// <summary>
@@ -30,7 +29,7 @@ namespace PrototypeGame.GameSystems.Sprites
         /// <param name="initialPosition">Initial position of the sprite</param>
         public Sprite(string textureName, Vector2 initialPosition)
         {
-            this.children = new List<GameComponent>();
+            this.children = new List<Sprite>();
             this.textureName = textureName;
             this.position = initialPosition;
             isRemoved = false;
@@ -58,12 +57,21 @@ namespace PrototypeGame.GameSystems.Sprites
         public override void Draw(GameTime gameTime, SpriteBatch sb)
         {
             sb.Draw(texture, position, null, Color.White, rotation, origin, scale, SpriteEffects.None, 0f);
+            foreach (Sprite child in this.children.ToArray())
+            {
+                if (child.isRemoved) { this.children.Remove(child); }
+                child.Draw(gameTime, sb);
+            }
         }
 
         // basic sprite shouldnt do anything
         public override void Update(GameTime gt)
         {
-            return;
+            foreach (Sprite child in this.children.ToArray())
+            {
+                if (child.isRemoved) { this.children.Remove(child); }
+                child.Update(gt);
+            }
             //throw new NotImplementedException();
         }
 
