@@ -31,17 +31,18 @@ namespace PrototypeGame.GameSystems.Sprites.ShooterSprites.enemies
 
             }
         }
-        public Enemy(string textureName, string projectileTexture, Vector2 initialPosition, Vector2 hitboxDimensions, Vector2 screenDimensions, float health, float attackTimer, ref Player player) : base(textureName, projectileTexture, initialPosition, hitboxDimensions, screenDimensions, health, attackTimer, null)
+        public Enemy(string textureName, string projectileTexture, Vector2 initialPosition, Vector2 screenDimensions, float health, float attackTimer, ref Player player) : base(textureName, projectileTexture, initialPosition, screenDimensions, health, attackTimer, null)
         {
             waypoints = new Queue<Waypoint>();
             this.player = player;
+            //scale = .5f;
             //speed = 40f;
         }
 
         public override void LoadContent(ContentManager content)
         {
             base.LoadContent(content);
-            Bullet playerBullet = new Bullet(defaultProjectileTexture, Vector2.Zero, new Vector2(40, 40), screenDimensions, Vector2.Zero, 20f, 500f, 25f, 10f);
+            Bullet playerBullet = new Bullet(defaultProjectileTexture, Vector2.Zero, screenDimensions, Vector2.Zero, 20f, 500f, 25f, 10f);
             playerBullet.LoadContent(content);
             this.defaultAttack = new Attack(playerBullet, this, "playeratk");
             this.defaultAttack.LoadContent(content);
@@ -56,7 +57,7 @@ namespace PrototypeGame.GameSystems.Sprites.ShooterSprites.enemies
             if (attackCooldown <= 0f)
             {
                 attackCooldown = attackTimer;
-                this.defaultAttack.Execute(ref player);
+                //this.defaultAttack.Execute(ref player);
 
             }
 

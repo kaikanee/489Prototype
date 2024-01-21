@@ -18,7 +18,7 @@ namespace PrototypeGame.GameSystems.Sprites.ShooterSprites
         public float health;
 
 
-        public ShootingSprite(string textureName, string projectileTexture, Vector2 initialPosition, Vector2 hitboxDimensions, Vector2 screenDimensions, float health, float attackTimer, Attack defaultAttack) : base(textureName, initialPosition, hitboxDimensions, screenDimensions)
+        public ShootingSprite(string textureName, string projectileTexture, Vector2 initialPosition, Vector2 screenDimensions, float health, float attackTimer, Attack defaultAttack) : base(textureName, initialPosition, screenDimensions)
         {
             this.health = health;
             this.defaultAttack = defaultAttack;

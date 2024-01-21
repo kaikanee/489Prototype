@@ -13,13 +13,23 @@ namespace PrototypeGame.GameSystems.Sprites
     internal class Sprite : GameComponent, ICloneable
     {
         private string textureName;
-        private Texture2D texture;
+        protected Texture2D texture;
         protected Vector2 velocity, origin;
         protected float speed, rotation, acceleration, maxSpeed;
         protected SpriteEffects spriteEffect;
+        protected Color[] textureData;
         public Vector2 position;
         public float scale;
         public List<Sprite> children;
+        
+        public virtual Matrix Transform
+        {
+            get
+            {
+                var matrix = Matrix.CreateTranslation(new Vector3(-origin, 0)) * Matrix.CreateRotationZ(rotation) * Matrix.CreateTranslation(new Vector3(position, 0f) * scale);
+                return matrix;
+            }
+        }
 
 
         /// <summary>
@@ -33,11 +43,13 @@ namespace PrototypeGame.GameSystems.Sprites
             this.textureName = textureName;
             this.spriteEffect = SpriteEffects.None;
             this.position = initialPosition;
+            
             isRemoved = false;
             speed = 0f;
             rotation = 0f;
             scale = 1f;
         }
+
 
         /// <summary>
         /// Generates a new instance of the Sprite class.
@@ -80,6 +92,8 @@ namespace PrototypeGame.GameSystems.Sprites
         {
             this.texture = content.Load<Texture2D>(textureName);
             this.origin = new Vector2(texture.Width / 2f, texture.Height / 2f);
+            this.textureData = new Color[texture.Width * texture.Height];
+            texture.GetData(this.textureData);
         }
 
         public object Clone()

@@ -12,8 +12,7 @@ namespace PrototypeGame.GameSystems.Sprites
 {
     internal class CollidableSprite : Sprite
     {
-        private Texture2D hitboxTexture;
-        private Vector2 hitboxDimensions;
+        
         protected Vector2 screenDimensions;
 
         public bool ShowHitbox
@@ -21,25 +20,25 @@ namespace PrototypeGame.GameSystems.Sprites
             get; set;
         }
 
-        public CollidableSprite(string textureName, Vector2 initialPosition, Vector2 hitboxDimensions, Vector2 screenDimensions) : base(textureName, initialPosition)
+        public CollidableSprite(string textureName, Vector2 initialPosition, Vector2 screenDimensions) : base(textureName, initialPosition)
         {
             this.screenDimensions = screenDimensions;
-            this.hitboxDimensions = hitboxDimensions;
+            
             this.ShowHitbox = false;
         }
 
-        public CollidableSprite(string textureName, Vector2 initialPosition, Vector2 hitboxDimensions, Vector2 screenDimensions, float speed, float rotation, float scale) : base(textureName, initialPosition, speed, rotation, scale)
+        public CollidableSprite(string textureName, Vector2 initialPosition, Vector2 screenDimensions, float speed, float rotation, float scale) : base(textureName, initialPosition, speed, rotation, scale)
         {
             this.screenDimensions = screenDimensions;
-            this.hitboxDimensions = hitboxDimensions;
+            
             this.ShowHitbox = false;
         }
 
-        public Rectangle Hitbox
+        public virtual Rectangle Hitbox
         {
             get
             {
-                return new Rectangle((int)origin.X, (int)origin.Y, (int)hitboxDimensions.X, (int)hitboxDimensions.Y);
+                return new Rectangle((int)position.X - (int)origin.X,(int)position.Y - (int)origin.Y, (int)texture.Width, (int)texture.Height);
             }
         }
 
@@ -94,6 +93,69 @@ namespace PrototypeGame.GameSystems.Sprites
             }
            
             return false;
+        }
+
+        public bool Intersects(CollidableSprite sprite)
+        {
+
+            
+            // Calculate a matrix which transforms from A's local space into
+            // world space and then into B's local space
+            var transformAToB = this.Transform * Matrix.Invert(sprite.Transform);
+
+            // When a point moves in A's local space, it moves in B's local space with a
+            // fixed direction and distance proportional to the movement in A.
+            // This algorithm steps through A one pixel at a time along A's X and Y axes
+            // Calculate the analogous steps in B:
+            var stepX = Vector2.TransformNormal(Vector2.UnitX, transformAToB);
+            var stepY = Vector2.TransformNormal(Vector2.UnitY, transformAToB);
+
+            // Calculate the top left corner of A in B's local space
+            // This variable will be reused to keep track of the start of each row
+            var yPosInB = Vector2.Transform(Vector2.Zero, transformAToB);
+
+            for (int yA = 0; yA < this.Hitbox.Height; yA++)
+            {
+                // Start at the beginning of the row
+                var posInB = yPosInB;
+
+                for (int xA = 0; xA < this.Hitbox.Width; xA++)
+                {
+                    // Round to the nearest pixel
+                    var xB = (int)Math.Round(posInB.X);
+                    var yB = (int)Math.Round(posInB.Y);
+
+                    if (0 <= xB && xB < sprite.Hitbox.Width &&
+                        0 <= yB && yB < sprite.Hitbox.Height)
+                    {
+                        // Get the colors of the overlapping pixels
+                        var colourA = this.textureData[xA + yA * this.Hitbox.Width];
+                        var colourB = sprite.textureData[xB + yB * sprite.Hitbox.Width];
+
+                        // If both pixel are not completely transparent
+                        if (colourA.A != 0 && colourB.A != 0)
+                        {
+                            return true;
+                        }
+                    }
+
+                    // Move to the next pixel in the row
+                    posInB += stepX;
+                }
+
+                // Move to the next row
+                yPosInB += stepY;
+            }
+
+            // No intersection found
+            return false;
+        }
+
+
+        
+        public virtual void onCollide(CollidableSprite collider)
+        {
+            return;
         }
         
 

@@ -24,12 +24,12 @@ namespace PrototypeGame.GameSystems
             _sprites = new List<Sprite>();
             Vector2 screenMiddle = new Vector2(screenSize.X / 2, screenSize.Y / 2);
 
-            Player player = new("playertexture", "playerprojectile", new Vector2(screenMiddle.X, screenMiddle.Y + 200), new Vector2(40, 40), screenSize, 1, 400f);
+            Player player = new("playertexture", "playerprojectile", "playerhitbox", new Vector2(screenMiddle.X, screenMiddle.Y + 200), screenSize, 1f, 400f);
             _sprites.Add(player);
-            Waypoint wp1 = new Waypoint(screenMiddle, 0f, 100f, 300f, 10f);
+            Waypoint wp1 = new Waypoint(screenMiddle, 0f, 100f, 300f, 45f);
             Queue<Waypoint> waypoints = new Queue<Waypoint>();
             waypoints.Enqueue(wp1);
-            Enemy enemy = new("enemytexture", "enemyprojectile", Vector2.Zero, new Vector2(40, 40), screenSize, 1f, 1f, ref player);
+            Enemy enemy = new("enemytexture", "enemyprojectile", Vector2.Zero, screenSize, 1f, 1f, ref player);
             
             enemy.waypoints = waypoints;
             _sprites.Add(enemy);
@@ -46,8 +46,34 @@ namespace PrototypeGame.GameSystems
 
         public void Update(GameTime gameTime)
         {
-            foreach(Sprite sprite in _sprites)
+            foreach(Sprite sprite in _sprites.ToArray())
             { sprite.Update(gameTime); }
+
+            PostUpdate(gameTime);
+        }
+
+
+        public void PostUpdate(GameTime gt)
+        {
+            foreach (Sprite sprite in _sprites.ToArray())
+            {
+                if (sprite.isRemoved) { _sprites.Remove(sprite); continue; }
+                if(sprite is CollidableSprite)
+                {
+                    foreach(Sprite sprite2 in _sprites.ToArray())
+                    {
+                        if(sprite2 is CollidableSprite && !sprite2.Equals(sprite))
+                        {
+                            CollidableSprite collidee = (CollidableSprite)sprite;
+                            CollidableSprite collider = (CollidableSprite)sprite2;
+                            if(collidee.Intersects(collider))
+                            {
+                                collidee.onCollide(collider);
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         public void Draw(GameTime gameTime, SpriteBatch sb)

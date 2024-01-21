@@ -22,18 +22,25 @@ namespace PrototypeGame.GameSystems.Sprites
                 this.target = value;
                 velocity = Vector2.Normalize(target - position);
                 var distance = target - position;
+                var preRotation = rotation;
                 rotation = (float)Math.Atan2(distance.Y, distance.X);
+                
                 // this is the jankiest line of code i have ever written but it works
+
                 if ((Math.PI / 2 < rotation && rotation < (3 * Math.PI / 2)) || (Math.PI / 2 < -rotation && -rotation < (3 * Math.PI / 2)))
                 {
                     spriteEffect = SpriteEffects.FlipVertically;
+                }
+                else
+                {
+                    spriteEffect = SpriteEffects.None;
                 }
 
             }
         }
 
         
-        public Bullet(string textureName, Vector2 initialPosition, Vector2 hitboxDimensions, Vector2 screenDimensions, Vector2 targetPosition, float speed, float maxSpeed, float  acceleration, float lifespan) : base(textureName, initialPosition, hitboxDimensions, screenDimensions)
+        public Bullet(string textureName, Vector2 initialPosition, Vector2 screenDimensions, Vector2 targetPosition, float speed, float maxSpeed, float  acceleration, float lifespan) : base(textureName, initialPosition, screenDimensions)
         {
             this.TargetPosition = targetPosition;
             this.speed = speed;
@@ -43,7 +50,7 @@ namespace PrototypeGame.GameSystems.Sprites
         }
 
 
-        public Bullet(string textureName, Vector2 intialPosition, Vector2 hitboxDimensions, Vector2 screenDimensions, ref Sprite target, float speed, float maxSpeed, float acceleration, float lifespan) : this(textureName, intialPosition, hitboxDimensions, screenDimensions, target.position, speed, maxSpeed, acceleration, lifespan)
+        public Bullet(string textureName, Vector2 intialPosition, Vector2 screenDimensions, ref Sprite target, float speed, float maxSpeed, float acceleration, float lifespan) : this(textureName, intialPosition, screenDimensions, target.position, speed, maxSpeed, acceleration, lifespan)
         {
             this.targetSprite = target;
             this.TargetPosition = target.position;
